@@ -40,7 +40,7 @@ h1 {
 
 .piece {
   font-weight: bold;
-  font-size: 20px;
-  text-transform: uppercase;
-  cursor: pointer;
+  font-size: 36px; /* Icônes plus grandes */
+  text-align: center;
+  line-height: 60px; /* Centrage vertical */
 }

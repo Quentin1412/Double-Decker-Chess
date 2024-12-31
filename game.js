@@ -34,6 +34,31 @@ function renderBoard() {
   });
 }
 
+// Fonction pour valider les mouvements
+function isValidMove(piece, startRow, startCol, endRow, endCol) {
+  const rowDiff = Math.abs(endRow - startRow);
+  const colDiff = Math.abs(endCol - startCol);
+
+  switch (piece) {
+    case "♟": // Pion noir
+      return startRow < endRow && rowDiff === 1 && colDiff === 0;
+    case "♙": // Pion blanc
+      return startRow > endRow && rowDiff === 1 && colDiff === 0;
+    case "♜": case "♖": // Tour
+      return startRow === endRow || startCol === endCol;
+    case "♞": case "♘": // Cavalier
+      return rowDiff * colDiff === 2;
+    case "♝": case "♗": // Fou
+      return rowDiff === colDiff;
+    case "♛": case "♕": // Reine
+      return rowDiff === colDiff || startRow === endRow || startCol === endCol;
+    case "♚": case "♔": // Roi
+      return rowDiff <= 1 && colDiff <= 1;
+    default:
+      return false;
+  }
+}
+
 // Gestion des clics sur l'échiquier
 function handleCellClick(event) {
   const cell = event.target.closest(".cell");
@@ -43,14 +68,23 @@ function handleCellClick(event) {
   const col = parseInt(cell.dataset.col);
 
   if (selectedPiece) {
-    // Déplacement de la pièce sélectionnée
     const [prevRow, prevCol] = selectedPiece;
-    initialBoard[row][col] = initialBoard[prevRow][prevCol];
-    initialBoard[prevRow][prevCol] = "";
+    const piece = initialBoard[prevRow][prevCol];
+
+    if (initialBoard[row][col]) {
+      // Crée une pièce empilée
+      initialBoard[row][col] += piece; // Exemple simple
+      initialBoard[prevRow][prevCol] = "";
+      alert(`Pièces empilées : ${initialBoard[row][col]}`);
+    } else if (isValidMove(piece, prevRow, prevCol, row, col)) {
+      initialBoard[row][col] = piece;
+      initialBoard[prevRow][prevCol] = "";
+    } else {
+      alert("Déplacement invalide !");
+    }
     selectedPiece = null;
     renderBoard();
   } else if (initialBoard[row][col]) {
-    // Sélection d'une pièce
     selectedPiece = [row, col];
     alert(`Pièce sélectionnée : ${initialBoard[row][col]} en [${row}, ${col}]`);
   }

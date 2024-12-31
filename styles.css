@@ -28,14 +28,11 @@ h1 {
   align-items: center;
   font-size: 24px;
   border: 1px solid #999;
-  background-color: #f0d9b5; /* Couleur par défaut */
+  background-color: #f0d9b5; /* Couleur claire */
 }
 
-.cell:nth-child(8n+1),
-.cell:nth-child(8n+3),
-.cell:nth-child(8n+5),
-.cell:nth-child(8n+7) {
-  background-color: #b58863; /* Couleur alternative */
+.cell:nth-child(even) {
+  background-color: #b58863; /* Couleur foncée */
 }
 
 .piece {
@@ -43,4 +40,21 @@ h1 {
   font-size: 36px; /* Icônes plus grandes */
   text-align: center;
   line-height: 60px; /* Centrage vertical */
+  border-radius: 50%; /* Forme arrondie */
+  padding: 5px;
+}
+
+.cell .piece:before {
+  content: "";
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+}
+
+.cell .piece {
+  border: 2px solid black; /* Par défaut noir */
+}
+
+.cell .piece:nth-child(odd) {
+  border: 2px solid white; /* Par défaut blanc */
 }
